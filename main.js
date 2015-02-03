@@ -28,7 +28,6 @@ Quote.prototype.create = function(){
   return this.$quoteEl; 
 };
 
-
 /**
  * Helper function to build up a star-rating DOM element
  * with a pre-set rating when needed
@@ -126,7 +125,24 @@ $(document).on('ready', function() {
 // Render quotes by an author
 
 // Delete a quote
-  //Store in a variable to restore later???
+  $('body').on('click','.quote-delete', function(){
+    var quote = $(this).closest('.quote');
+    var text = quote.find('.quote-text').text();
+
+    console.log(text);
+
+    for(var i = 0; i < quotes.length; i++){
+      if (quotes[i].text === text){
+
+        console.log("Got here");
+        quotes.splice(i,1);
+        break;
+      }
+    }
+    loadQuotes();
+  });
+
+//Store in a variable to restore later???
 
 // Undo last delete
   
