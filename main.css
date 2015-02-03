@@ -52,14 +52,14 @@ input, button, textarea {
 }
 
 .quote-input{
-  border: 1px solid #1c1c1c;
+  border: 1px solid #ccc;
   width: 100%;
   height: 6.0rem;
   resize: none;
 }
 
 .author-input{
-  border: 1px solid #1c1c1c;
+  border: 1px solid #ccc;
   width: 200px;
   float: right
 }
@@ -79,13 +79,8 @@ input, button, textarea {
 
 .quote {
   overflow: hidden;
+  margin-bottom: 5.6rem;
 }
-
-/*.clearfix:after {
-  content: "";
-  display: table-cell;
-  clear: both;
-}*/
 
 .quote-text,
 .quote-author {
@@ -95,4 +90,75 @@ input, button, textarea {
 
 .quote-author {
   float: right;
+}
+
+.quote-author:before{
+  content: "– ";
+}
+
+.quote-delete img {
+  width: 15px;
+  fill: #63a6c0;
+
+}
+
+/* Star Rating from http://rog.ie/blog/css-star-rater */
+
+.rating {
+  width: 75px;
+  height: 15px;
+  display: inline-block;
+  overflow: hidden;
+  background: url(star.svg);
+  background-size: contain;
+  margin: 0 1em;
+  position: relative;
+}
+
+.rating input {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  opacity: 0;
+  display: inline-block;
+  width: 20%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  z-index: 2;
+  position: relative;
+}
+
+.rating i {
+  opacity: 0;
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 20%;
+  z-index: 1;
+  background: url(star-yellow.png);
+  background-size: contain;
+
+}
+
+.rating input:hover + i,
+.rating input:checked + i {
+  opacity: 1;
+}
+
+.rating i ~ i {
+  width: 40%;
+}
+
+.rating i ~ i ~ i {
+  width: 60%;
+}
+
+.rating i ~ i ~ i ~ i {
+  width: 80%;
+}
+
+.rating i ~ i ~ i ~ i ~ i {
+  width: 100%;
 }
