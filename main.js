@@ -10,8 +10,10 @@ var Quote = function(text, author){
 
 // Create a DOM element of a quote
 Quote.prototype.create = function(){
+
+  console.log(this);
   this.$quoteEl = $('<div>')
-      .addClass('quote')
+      .addClass('quote clearfix')
       .append('<p class="quote-text">' + this.text + '</p>')
       .append('<p class="quote-author">' + this.author + '</p>');
   return this.$quoteEl; 
@@ -19,14 +21,14 @@ Quote.prototype.create = function(){
 
 var buildQuoteEls = function(quote){
   return quote.create();
-}
+};
 
 // Add a quote
 var addQuote = function(event){
   // Prevent the submit button from sending us somewhere cray
   console.log("Clicked on submit");
-  var newQuote = new Quote($('.quote-text').val(),
-                            $('.quote-author').val());
+  var newQuote = new Quote($('.quote-input').val(),
+                            $('.author-input').val());
   quotes.push(newQuote);
   console.log(quotes);
   loadQuotes();
@@ -40,7 +42,7 @@ var loadQuotes = function(){
   console.log(allQuotes);
   console.log("GOT HERE");
   $('.quotes').append(allQuotes);
-}
+};
 
 
 $(document).on('ready', function() {

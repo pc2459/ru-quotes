@@ -77,6 +77,16 @@ input, button, textarea {
   margin: 0 auto;
 }
 
+.quote {
+  overflow: hidden;
+}
+
+/*.clearfix:after {
+  content: "";
+  display: table-cell;
+  clear: both;
+}*/
+
 .quote-text,
 .quote-author {
   font-size: 2.8rem;
