@@ -1,6 +1,6 @@
 // Create an array of quote objects
 var quotes = [];
-
+var ratingEls = 0;
 
 /////////////////
 // Quote class //
@@ -9,20 +9,15 @@ var quotes = [];
 var Quote = function(text, author, rating){
   this.text = text;
   this.author = author;
-  this.ranking = rating;
+  this.rating = rating;
 };
 
 /**
  * Create DOM element of a quote
  */
 Quote.prototype.create = function(){
-  var ratingEl = $('<span>')
-      .addClass("rating")
-      .append('<input type="radio" name="rating" value="1"><i></i>')
-      .append('<input type="radio" name="rating" value="2"><i></i>')
-      .append('<input type="radio" name="rating" value="3"><i></i>')
-      .append('<input type="radio" name="rating" value="4"><i></i>')
-      .append('<input type="radio" name="rating" value="5"><i></i>');
+
+  var ratingEl = buildRatingEl(this.rating);
 
   this.$quoteEl = $('<div>')
       .addClass('quote')
@@ -33,6 +28,29 @@ Quote.prototype.create = function(){
   return this.$quoteEl; 
 };
 
+
+/**
+ * Helper function to build up a star-rating DOM element
+ * with a pre-set rating when needed
+ * @param  {number} rating 
+ */
+var buildRatingEl = function(rating){
+  var ratingEl = $('<span>')
+      .addClass("rating")
+      .append('<input type="radio" name="rating'+ (++ratingEls) +'" value="1"><i></i>')
+      .append('<input type="radio" name="rating'+ ratingEls +'"  value="2"><i></i>')
+      .append('<input type="radio" name="rating'+ ratingEls +'"  value="3"><i></i>')
+      .append('<input type="radio" name="rating'+ ratingEls +'"  value="4"><i></i>')
+      .append('<input type="radio" name="rating'+ ratingEls +'"  value="5"><i></i>');
+
+  ratingEl.find(":radio[value="+rating+"]").prop("checked",true);
+  return ratingEl;
+};
+
+/**
+ * Helper function to create quote elements
+ * @param  {Quote} quote 
+ */
 var buildQuoteEls = function(quote){
   return quote.create();
 };
@@ -50,11 +68,30 @@ var addQuote = function(event){
 };
 
 /**
+ * Rate a quote upon a click event
+ */
+var rateQuote = function(){
+  //Get value 
+  var value = $(this).val();
+  var text = $(this).closest('.quote').find('.quote-text').text();
+  var foundQuote = _.find(quotes,function(quote){
+    return quote.text === text;
+  });
+
+  // Update the rating of the quote
+  foundQuote.rating = value;
+  loadQuotes();
+};
+
+/**
  * Empty and reload all quotes into the DOM
  */
 var loadQuotes = function(){
   $('.quotes').empty();
-  var allQuotes = _.map(quotes, buildQuoteEls);
+  var sortedQuotes = _.sortBy(quotes, function(quote){
+    return -(quote.rating);
+  });
+  var allQuotes = _.map(sortedQuotes, buildQuoteEls);
   $('.quotes').append(allQuotes);
 };
 
@@ -74,20 +111,24 @@ var autoLoad = function(arr){
 
 $(document).on('ready', function() {
 
+
   autoLoad(quoteData);
   
+  // Add a quote
   $('.submit').on('click', addQuote);
 
+  // Delegated quote rating
+  $('body').on('click','input:radio', rateQuote);  
+
+
+
+
+// Render quotes by an author
 
 // Delete a quote
   //Store in a variable to restore later???
 
 // Undo last delete
-
-// Rate a quote
-
-// Render quotes by an author
-
   
 
 // Render list of all quotes
