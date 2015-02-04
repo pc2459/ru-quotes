@@ -9,6 +9,24 @@
   </head>
   <body>
 
+  <!-- Handlebars Scripts -->
+
+    <script id="quote-template" type="text/x-handlebars-template">
+      <div class="quote">
+
+        <p class="quote-text">{{text}}</p>
+        <p class="quote-author">{{author}}</p>
+        <span class="quote-delete"><img src="delete.svg"></span>
+        <div class="rating">
+        <input type="radio" name="rating{{id}}" value="1"><i></i>
+        <input type="radio" name="rating{{id}}" value="2"><i></i>
+        <input type="radio" name="rating{{id}}" value="3"><i></i>
+        <input type="radio" name="rating{{id}}" value="4"><i></i>
+        <input type="radio" name="rating{{id}}" value="5"><i></i>
+        </div>
+      </div>
+  </script>
+
   <header>
     <h1 class="title">they said...</h1>
   </header>
@@ -33,12 +51,12 @@
 
   </section>
 
-  <section class="quotes">
 
-  <div class="quote clearfix">
-    <p class="quote-text">Every day I examine myself in three ways: In doing things for others, have I been dishonest? In dealing with friends, have I been untrustworthy? Have I practiced what has been taught to me?</p>
-    <p class="quote-author">Zeng Zi</p>
-  </div>
+    
+
+  <section class="quotes">
+  
+
     
   </section>
 
@@ -49,7 +67,7 @@
     <script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min.js"></script>
     <script src="handlebars-v2.0.0.js"></script>
     <script src="quote-data.js"></script>
-    <script src="main.js"></script>
+    <script src="main-hb.js"></script>
 
   </body>
 </html>
