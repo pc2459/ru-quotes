@@ -10,7 +10,7 @@ var undo;
 var Quote = (function(){
 
   var Quote = function(text, author, rating){
-    ratingEls = 0;
+    this.id = _.uniqueId();
     this.text = text;
     this.author = author;
     this.rating = rating;
@@ -20,33 +20,22 @@ var Quote = (function(){
    * Create DOM element of a quote
    */
   Quote.prototype.create = function(){
-    var ratingEl = buildRatingEl(this.rating);
-    this.$quoteEl = $('<div>')
-        .addClass('quote')
-        .append('<p class="quote-text">' + this.text + '</p>')
-        .append('<p class="quote-author">' + this.author + '</p>')
-        .append('<span class="quote-delete"><img src="delete.svg"></span>')
-        .append(ratingEl);
-    return this.$quoteEl; 
+    // var ratingEl = buildRatingEl(this.rating);
+    
+    // Get HTML from the template 
+    var source = $("#quote-template").html();
+    // Compile the template
+    var template = Handlebars.compile(source);
+
+    var quote = $(template(this));
+
+    // Set the rating
+    quote.find(":radio[value="+this.rating+"]").prop("checked",true);
+
+    return quote;
+
   };
 
-  /**
-   * Helper function to build up a star-rating DOM element
-   * with a pre-set rating when needed
-   * @param  {number} rating 
-   */
-  var buildRatingEl = function(rating){
-    var ratingEl = $('<span>')
-        .addClass("rating")
-        .append('<input type="radio" name="rating'+ (++ratingEls) +'" value="1"><i></i>')
-        .append('<input type="radio" name="rating'+ ratingEls +'"  value="2"><i></i>')
-        .append('<input type="radio" name="rating'+ ratingEls +'"  value="3"><i></i>')
-        .append('<input type="radio" name="rating'+ ratingEls +'"  value="4"><i></i>')
-        .append('<input type="radio" name="rating'+ ratingEls +'"  value="5"><i></i>');
-
-    ratingEl.find(":radio[value="+rating+"]").prop("checked",true);
-    return ratingEl;
-  };
 
   return Quote;
 
