@@ -122,6 +122,38 @@ var undoDelete = function(){
 };
 
 /**
+ * Render all quotes by an author to page upon clicking 
+ * an author's name
+ */
+var renderByAuthor = function(){
+    var author = $(this).text(); 
+    var allByAuthor = _.chain(quotes)
+                        .filter(function(quote){ return quote.author === author;  })
+                        .sortBy(function(quote){    return -(quote.rating); })
+                        .map(function(quote){ return quote.create(); })
+                        .value();
+    $('.quotes').empty()
+                .append(allByAuthor);
+
+};
+/**
+ * Render a random quote in a popup
+ */
+var renderRandom = function(){
+
+    var popup = $('<div class="lightbox-bg">');
+
+    var popupInner = $('<div class="lightbox">')
+        .append(quotes[_.random(0,quotes.length-1)].create())
+        .append('<p><a href="#" id="close-lightbox">Close</a></p>');
+
+    popup.append(popupInner);
+
+    $('body').append(popup);
+
+};
+
+/**
  * Empty and reload all quotes into the DOM
  */
 var loadQuotes = function(){
@@ -174,39 +206,14 @@ $(document).on('ready', function() {
   // Undo last delete
   $('.undo').on('click', undoDelete);
 
-
   // Render quotes by an author
-  $('body').on('click','.quote-author',function(){
-    var author = $(this).text(); 
-    var allByAuthor = _.chain(quotes)
-                        .filter(function(quote){ return quote.author === author;  })
-                        .sortBy(function(quote){    return -(quote.rating); })
-                        .map(function(quote){ return quote.create(); })
-                        .value();
-    $('.quotes').empty()
-                .append(allByAuthor);
-
-  });
-
-
+  $('body').on('click','.quote-author',renderByAuthor);
 
 
   // Render a random quote in a popup
+  $('body').on('click','.random-quote',renderRandom);
 
-  $('body').on('click','.random-quote',function(){
-
-    var popup = $('<div class="lightbox-bg">');
-
-    var popupInner = $('<div class="lightbox">')
-        .append(quotes[_.random(0,quotes.length-1)].create())
-        .append('<p><a href="#" id="close-lightbox">Close</a></p>');
-
-    popup.append(popupInner);
-
-    $('body').append(popup);
-
-  });
-
+  // Close popups
   $('body').on('click','#close-lightbox',function(){
     $('.lightbox-bg').remove();
   });
