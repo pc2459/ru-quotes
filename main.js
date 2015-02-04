@@ -153,7 +153,7 @@ $(document).on('ready', function() {
   autoLoad(quoteData);
 
   // Toggle add-a-quote form
-  $('.add-quote').on('click','.add',function(){
+  $('body').on('click','.add',function(){
     $('.form-wrapper').toggle();
     var text = $(this).text();
     $(this).text( text === "Add A Quote" ? "Nevermind" : "Add A Quote" ) ; 
@@ -198,7 +198,7 @@ $(document).on('ready', function() {
     var popup = $('<div class="lightbox-bg">');
 
     var popupInner = $('<div class="lightbox">')
-        .append(quotes[_.random(0,quotes.length)].create())
+        .append(quotes[_.random(0,quotes.length-1)].create())
         .append('<p><a href="#" id="close-lightbox">Close</a></p>');
 
     popup.append(popupInner);

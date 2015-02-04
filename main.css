@@ -25,16 +25,11 @@ header {
   cursor: pointer;
 }
 
-.add-quote {
-  width: 100%;
-  padding: 20px 0;
-  text-align: center;
-}
-
-.form-wrapper,
-.options-wrapper {
+.main {
   width: 800px;
   margin: 0 auto;
+  padding: 20px 0;
+  text-align: center;
 }
 
 .form-wrapper{
@@ -108,7 +103,7 @@ button {
 
 .quote-text,
 .quote-author {
-  font-size: 2.8rem;
+  font-size: 2.4rem;
   margin: 0;
 }
 
@@ -136,6 +131,7 @@ button {
   top: 0;
   left: 0;
   background: rgba(0,0,0,0.7);
+  z-index: 9999;
 }
 
 .lightbox {
@@ -216,4 +212,53 @@ button {
 
 .rating i ~ i ~ i ~ i ~ i {
   width: 100%;
+}
+
+/* Responsive */
+
+@media screen and (max-width: 810px){
+
+  body {
+    font-size: 1.5rem;
+  }
+
+  header, 
+  .quotes, 
+  .main {
+    width: 90%;
+  }
+
+  .quote-text, 
+  .quote-author {
+    font-size: 2rem;
+
+  }
+
+}
+
+@media screen and (max-width: 620px){
+
+  .lightbox {
+    width: 80%;
+  }
+
+}
+
+
+@media screen and (max-width: 520px){
+
+  .small-button {
+    width: 100%;
+    display: inline-block;
+  }
+
+}
+
+@media screen and (max-width: 420px){
+
+  .title {
+    font-size: 5.5rem;
+  }
+
+
 }
