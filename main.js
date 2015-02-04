@@ -1,6 +1,5 @@
 // Create an array of quote objects
 var quotes = [];
-// var ratingEls = 0;
 var undo;
 
 /////////////////
@@ -69,9 +68,9 @@ var addQuote = function(event){
 var rateQuote = function(){
   //Get value 
   var value = $(this).val();
-  var text = $(this).closest('.quote').find('.quote-text').text();
+  var id = $(this).closest('.quote').find(':radio').attr('name');
   var foundQuote = _.find(quotes,function(quote){
-    return quote.text === text;
+    return quote.id === id;
   });
 
   // Update the rating of the quote
@@ -85,11 +84,11 @@ var rateQuote = function(){
  */
 var deleteQuote = function(){
   var quote = $(this).closest('.quote');
-  var text = quote.find('.quote-text').text();
+  var id = quote.find(':radio').attr('name');
 
   // Search for and remove quote from the array
   for(var i = 0; i < quotes.length; i++){
-    if (quotes[i].text === text){
+    if (quotes[i].id === id){
       undo = quotes[i];
       quotes.splice(i,1);
       break;
