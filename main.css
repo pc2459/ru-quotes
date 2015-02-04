@@ -10,7 +10,7 @@ html{
 }
 
 body {
-  font-size: 1.5rem;
+  font-size: 1.8rem;
   color: #1c1c1c;
 }
 
@@ -68,7 +68,6 @@ input, button, textarea {
   color: #fff;
   background-color: #63a6c0;
   width: 100%;
-  font-size: 2.8rem;
 
 }
 

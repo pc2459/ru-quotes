@@ -1,50 +1,55 @@
 // Create an array of quote objects
 var quotes = [];
 var ratingEls = 0;
+var undo;
 
 /////////////////
 // Quote class //
 /////////////////
 
-var Quote = function(text, author, rating){
-  this.text = text;
-  this.author = author;
-  this.rating = rating;
-};
+var Quote = (function(){
 
-/**
- * Create DOM element of a quote
- */
-Quote.prototype.create = function(){
+  var Quote = function(text, author, rating){
+    this.text = text;
+    this.author = author;
+    this.rating = rating;
+  };
 
-  var ratingEl = buildRatingEl(this.rating);
+  /**
+   * Create DOM element of a quote
+   */
+  Quote.prototype.create = function(){
+    var ratingEl = buildRatingEl(this.rating);
+    this.$quoteEl = $('<div>')
+        .addClass('quote')
+        .append('<p class="quote-text">' + this.text + '</p>')
+        .append('<p class="quote-author">' + this.author + '</p>')
+        .append('<span class="quote-delete"><img src="delete.svg"></span>')
+        .append(ratingEl);
+    return this.$quoteEl; 
+  };
 
-  this.$quoteEl = $('<div>')
-      .addClass('quote')
-      .append('<p class="quote-text">' + this.text + '</p>')
-      .append('<p class="quote-author">' + this.author + '</p>')
-      .append('<span class="quote-delete"><img src="delete.svg"></span>')
-      .append(ratingEl);
-  return this.$quoteEl; 
-};
+  /**
+   * Helper function to build up a star-rating DOM element
+   * with a pre-set rating when needed
+   * @param  {number} rating 
+   */
+  var buildRatingEl = function(rating){
+    var ratingEl = $('<span>')
+        .addClass("rating")
+        .append('<input type="radio" name="rating'+ (++ratingEls) +'" value="1"><i></i>')
+        .append('<input type="radio" name="rating'+ ratingEls +'"  value="2"><i></i>')
+        .append('<input type="radio" name="rating'+ ratingEls +'"  value="3"><i></i>')
+        .append('<input type="radio" name="rating'+ ratingEls +'"  value="4"><i></i>')
+        .append('<input type="radio" name="rating'+ ratingEls +'"  value="5"><i></i>');
 
-/**
- * Helper function to build up a star-rating DOM element
- * with a pre-set rating when needed
- * @param  {number} rating 
- */
-var buildRatingEl = function(rating){
-  var ratingEl = $('<span>')
-      .addClass("rating")
-      .append('<input type="radio" name="rating'+ (++ratingEls) +'" value="1"><i></i>')
-      .append('<input type="radio" name="rating'+ ratingEls +'"  value="2"><i></i>')
-      .append('<input type="radio" name="rating'+ ratingEls +'"  value="3"><i></i>')
-      .append('<input type="radio" name="rating'+ ratingEls +'"  value="4"><i></i>')
-      .append('<input type="radio" name="rating'+ ratingEls +'"  value="5"><i></i>');
+    ratingEl.find(":radio[value="+rating+"]").prop("checked",true);
+    return ratingEl;
+  };
 
-  ratingEl.find(":radio[value="+rating+"]").prop("checked",true);
-  return ratingEl;
-};
+  return Quote;
+
+})();
 
 /**
  * Helper function to create quote elements
@@ -79,6 +84,25 @@ var rateQuote = function(){
 
   // Update the rating of the quote
   foundQuote.rating = value;
+  loadQuotes();
+};
+
+/**
+ * Delete quote upon a click event
+ * @return {[type]} [description]
+ */
+var deleteQuote = function(){
+  var quote = $(this).closest('.quote');
+  var text = quote.find('.quote-text').text();
+
+  // Search for and remove quote from the array
+  for(var i = 0; i < quotes.length; i++){
+    if (quotes[i].text === text){
+      undo = quotes[i];
+      quotes.splice(i,1);
+      break;
+    }
+  }
   loadQuotes();
 };
 
@@ -119,28 +143,13 @@ $(document).on('ready', function() {
   // Delegated quote rating
   $('body').on('click','input:radio', rateQuote);  
 
-
+  // Delete a quote
+  $('body').on('click','.quote-delete', deleteQuote);
 
 
 // Render quotes by an author
 
-// Delete a quote
-  $('body').on('click','.quote-delete', function(){
-    var quote = $(this).closest('.quote');
-    var text = quote.find('.quote-text').text();
 
-    console.log(text);
-
-    for(var i = 0; i < quotes.length; i++){
-      if (quotes[i].text === text){
-
-        console.log("Got here");
-        quotes.splice(i,1);
-        break;
-      }
-    }
-    loadQuotes();
-  });
 
 //Store in a variable to restore later???
 
