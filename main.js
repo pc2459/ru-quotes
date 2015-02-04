@@ -1,6 +1,6 @@
 // Create an array of quote objects
 var quotes = [];
-var ratingEls = 0;
+// var ratingEls = 0;
 var undo;
 
 /////////////////
@@ -10,6 +10,7 @@ var undo;
 var Quote = (function(){
 
   var Quote = function(text, author, rating){
+    ratingEls = 0;
     this.text = text;
     this.author = author;
     this.rating = rating;
@@ -52,23 +53,25 @@ var Quote = (function(){
 })();
 
 /**
- * Helper function to create quote elements
- * @param  {Quote} quote 
- */
-var buildQuoteEls = function(quote){
-  return quote.create();
-};
-
-/**
  * Add a quote upon a click event
  * @param {click event} event
  */
-var addQuote = function(event){  
-  var newQuote = new Quote($('.quote-input').val(),
-                          $('.author-input').val());
-  quotes.push(newQuote);
-  loadQuotes();
-  return false;
+var addQuote = function(event){
+  event.preventDefault();
+  // Check if quote is already in the array
+  if ( _.find(quotes,function(quote){ return quote.text === $('.quote-input').val(); })) 
+  {
+    alert("Sorry, this quote is already in the database!");
+  }
+  // Push new ones into the array
+  else {
+    var newQuote = new Quote($('.quote-input').val(),
+                            $('.author-input').val());
+    quotes.push(newQuote);
+    loadQuotes();
+  }
+  $('.quote-input').val("Witty quote here...");
+  $('.author-input').val("");
 };
 
 /**
@@ -103,7 +106,19 @@ var deleteQuote = function(){
       break;
     }
   }
+  // Activate the undo button 
+  $('.undo').removeClass('inactive');
   loadQuotes();
+};
+
+var undoDelete = function(){
+  // Check to see if there's an undo to be undone
+  if (undo !== undefined){
+    quotes.push(undo);
+    undo = undefined;
+    $('.undo').addClass('inactive');
+    loadQuotes();  
+  }
 };
 
 /**
@@ -114,7 +129,7 @@ var loadQuotes = function(){
   var sortedQuotes = _.sortBy(quotes, function(quote){
     return -(quote.rating);
   });
-  var allQuotes = _.map(sortedQuotes, buildQuoteEls);
+  var allQuotes = _.map(sortedQuotes, function(quote){ return quote.create(); });
   $('.quotes').append(allQuotes);
 };
 
@@ -136,6 +151,16 @@ $(document).on('ready', function() {
 
 
   autoLoad(quoteData);
+
+  // Toggle add-a-quote form
+  $('.add-quote').on('click','.add',function(){
+    $('.form-wrapper').toggle();
+    var text = $(this).text();
+    $(this).text( text === "Add A Quote" ? "Nevermind" : "Add A Quote" ) ; 
+  });
+
+  // Load all quotes 
+  $('.title').on('click',loadQuotes);
   
   // Add a quote
   $('.submit').on('click', addQuote);
@@ -146,19 +171,27 @@ $(document).on('ready', function() {
   // Delete a quote
   $('body').on('click','.quote-delete', deleteQuote);
 
+  // Undo last delete
+  $('.undo').on('click', undoDelete);
 
-// Render quotes by an author
+
+  // Render quotes by an author
+  $('.quote-author').on('click',function(){
+    var author = $(this).text(); 
+    var allByAuthor = _.chain(quotes)
+                        .filter(function(quote){ return quote.author === author;  })
+                        .sortBy(function(quote){    return -(quote.rating); })
+                        .map(function(quote){ return quote.create(); })
+                        .value();
+    $('.quotes').empty()
+                .append(allByAuthor);
+
+  });
 
 
 
-//Store in a variable to restore later???
 
-// Undo last delete
-  
-
-// Render list of all quotes
-
-// Render a random quote in a popup
+  // Render a random quote in a popup
 
   
 });

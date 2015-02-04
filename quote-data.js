@@ -15,6 +15,11 @@ var quoteData = [
     text : "You have to write the book that wants to be written. And if the book will be too difficult for grown-ups, then you write it for children.",
     author : "Madeleine L'Engle",
     rating : "4"
+  },
+  {
+    text : "In the end, it's not the years in your life that count. It's the life in your years.",
+    author : "Abraham Lincoln",
+    rating : "3"
   }
 
 

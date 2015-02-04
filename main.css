@@ -30,9 +30,14 @@ header {
   text-align: center;
 }
 
-.form-wrapper {
+.form-wrapper,
+.options-wrapper {
   width: 800px;
   margin: 0 auto;
+}
+
+.form-wrapper{
+  display: none;
 }
 
 input, button, textarea {
@@ -40,6 +45,25 @@ input, button, textarea {
   border-radius: 5px;
   padding: 5px;
   margin: 1rem 0
+}
+
+button {
+  background-color: #63a6c0;
+  color: #ffffff;
+}
+
+.small-button {
+  width: 31.3333%;
+  margin-right: 2%;
+  margin-left: 0;
+}
+
+.inactive {
+  background-color: #cfcfcf;
+}
+
+.small-button:last-child{
+  margin-right: 0;
 }
 
 .said-by {
@@ -66,7 +90,7 @@ input, button, textarea {
 
 .submit{
   color: #fff;
-  background-color: #63a6c0;
+
   width: 100%;
 
 }
