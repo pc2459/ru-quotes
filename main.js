@@ -160,7 +160,7 @@ $(document).on('ready', function() {
   });
 
   // Load all quotes 
-  $('.title').on('click',loadQuotes);
+  $('body').on('click','.title',loadQuotes);
   
   // Add a quote
   $('.submit').on('click', addQuote);
@@ -176,7 +176,7 @@ $(document).on('ready', function() {
 
 
   // Render quotes by an author
-  $('.quote-author').on('click',function(){
+  $('body').on('click','.quote-author',function(){
     var author = $(this).text(); 
     var allByAuthor = _.chain(quotes)
                         .filter(function(quote){ return quote.author === author;  })
@@ -193,5 +193,22 @@ $(document).on('ready', function() {
 
   // Render a random quote in a popup
 
+  $('body').on('click','.random-quote',function(){
+
+    var popup = $('<div class="lightbox-bg">');
+
+    var popupInner = $('<div class="lightbox">')
+        .append(quotes[_.random(0,quotes.length)].create())
+        .append('<p><a href="#" id="close-lightbox">Close</a></p>');
+
+    popup.append(popupInner);
+
+    $('body').append(popup);
+
+  });
+
+  $('body').on('click','#close-lightbox',function(){
+    $('.lightbox-bg').remove();
+  });
   
 });
