@@ -19,7 +19,6 @@ var Quote = (function(){
    * Create DOM element of a quote
    */
   Quote.prototype.create = function(){
-    // var ratingEl = buildRatingEl(this.rating);
     
     // Get HTML from the template 
     var source = $("#quote-template").html();
@@ -30,6 +29,19 @@ var Quote = (function(){
 
     // Set the rating
     quote.find(":radio[value="+this.rating+"]").prop("checked",true);
+
+    return quote;
+
+  };
+
+  Quote.prototype.createStripped = function(){
+    
+    // Get HTML from the template 
+    var source = $("#stripped-quote-template").html();
+    // Compile the template
+    var template = Handlebars.compile(source);
+
+    var quote = $(template(this));
 
     return quote;
 
@@ -135,7 +147,7 @@ var renderRandom = function(){
 
     var popup = $('<div class="lightbox-bg">');
     var popupInner = $('<div class="lightbox">')
-        .append(quotes[_.random(0,quotes.length-1)].create())
+        .append(quotes[_.random(0,quotes.length-1)].createStripped())
         .append('<p><a href="#" id="close-lightbox">Close</a></p>');
     popup.append(popupInner);
     $('body').append(popup);

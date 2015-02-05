@@ -145,6 +145,11 @@ button {
   padding: 20px;
 }
 
+.lightbox .quote {
+  margin-bottom: 3.6rem;
+}
+
+
 #close-lightbox {
   color: #000;
   text-decoration: none;

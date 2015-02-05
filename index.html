@@ -2,6 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>They Said...</title>
     <link rel="stylesheet" type="text/css" href="http://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.1/normalize.min.css">
     <link rel="stylesheet" type="text/css" href="main.css">
@@ -11,7 +12,15 @@
 
   <!-- Handlebars Scripts -->
 
-    <script id="quote-template" type="text/x-handlebars-template">
+    <script id="stripped-quote-template" type="text/x-handlebars-template">
+      <div class="quote">
+
+        <p class="quote-text">{{text}}</p>
+        <p class="quote-author">{{author}}</p>
+      </div>
+  </script>
+
+  <script id="quote-template" type="text/x-handlebars-template">
       <div class="quote">
 
         <p class="quote-text">{{text}}</p>
@@ -26,6 +35,7 @@
         </div>
       </div>
   </script>
+
 
   <header>
     <h1 class="title">they said...</h1>
